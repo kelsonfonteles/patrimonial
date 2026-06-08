@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup – Chips e Linha</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { box-sizing:border-box; }
+        body { background:#02081a; font-family:'Segoe UI',system-ui,sans-serif; color:#fff; margin:0; }
+
+        /* NAV MOCKUP */
+        .mock-nav { background:#000d1a; border-bottom:2px solid #22c55e; padding:.5rem 1rem; display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
+        .mock-nav span { color:#4ade80; font-size:.7rem; font-weight:700; margin-right:.5rem; }
+        .mock-btn { padding:.35rem .9rem; border-radius:.5rem; font-size:.75rem; font-weight:600; cursor:pointer; border:1px solid #374151; color:#9ca3af; background:transparent; transition:all .15s; }
+        .mock-btn:hover { border-color:#6b7280; color:#fff; }
+        .mock-btn.active { background:#0f3d1a; border-color:#22c55e; color:#4ade80; }
+
+        /* APP CHROME */
+        .hdr { background:#050f1e; border-bottom:1px solid #1a2e45; padding:.75rem 1rem; position:sticky; top:40px; z-index:20; }
+        .card { background:#091627; border:1px solid #1a2e45; border-radius:.75rem; }
+
+        /* INPUTS */
+        .inp { background:#0f1f30; border:1px solid #1e3248; color:#fff; padding:.625rem .875rem; border-radius:.5rem; font-size:.875rem; width:100%; }
+        .inp:focus { outline:none; border-color:#22c55e; }
+        .inp::placeholder { color:#3d5468; }
+        .inp-setor { background:#0f1f30; border:1px solid #1e3248; color:#fff; padding:.45rem .7rem; border-radius:.45rem; font-size:.8rem; width:100%; text-transform:uppercase; }
+        .inp-setor:focus { outline:none; border-color:#22c55e; }
+        .inp-setor::placeholder { color:#2d4558; text-transform:none; }
+        .inp-setor:disabled { opacity:.4; cursor:not-allowed; }
+
+        /* BUTTONS */
+        .btn-g { background:#22c55e; color:#000; font-weight:700; border-radius:.5rem; padding:.6rem 1.25rem; font-size:.875rem; cursor:pointer; border:none; transition:background .15s; }
+        .btn-g:hover { background:#16a34a; }
+        .btn-g:disabled { background:#1a3a1a; color:#4b5563; cursor:not-allowed; }
+        .btn-o { background:transparent; border:1px solid #374151; color:#d1d5db; padding:.6rem 1.25rem; border-radius:.5rem; font-size:.875rem; cursor:pointer; }
+        .btn-o:hover { background:#1f2937; }
+        .btn-save { background:#22c55e; color:#000; font-weight:700; padding:.35rem .85rem; border-radius:.45rem; font-size:.75rem; cursor:pointer; border:none; }
+        .btn-save:hover { background:#16a34a; }
+        .btn-upd { background:#1e3a6e; color:#93c5fd; border:1px solid #1d4ed8; padding:.3rem .7rem; border-radius:.375rem; font-size:.75rem; cursor:pointer; }
+
+        /* TABLE */
+        .tbl { width:100%; border-collapse:collapse; }
+        .tbl th { background:#050f1e; padding:.6rem 1rem; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:#4b6280; white-space:nowrap; text-align:left; }
+        .tbl td { padding:.6rem 1rem; border-bottom:1px solid #0f1f30; font-size:.82rem; vertical-align:middle; }
+        .tbl tr:last-child td { border-bottom:none; }
+        .tbl tr:hover td { background:#0a1828; }
+
+        /* BADGES */
+        .badge-plan { background:#0f2038; color:#60a5fa; border:1px solid #1e3a6e; padding:.12rem .45rem; border-radius:.3rem; font-size:.65rem; white-space:nowrap; }
+        .badge-fil { background:#1a1a2e; color:#a78bfa; border:1px solid #3730a3; padding:.12rem .45rem; border-radius:.3rem; font-size:.65rem; }
+        .chip-g { background:#14532d; color:#4ade80; border:1px solid #16a34a; padding:.12rem .45rem; border-radius:.3rem; font-size:.65rem; }
+        .chip-r { background:#450a0a; color:#f87171; border:1px solid #b91c1c; padding:.12rem .45rem; border-radius:.3rem; font-size:.65rem; }
+        .chip-u { background:#1f2937; color:#9ca3af; border:1px solid #4b5563; padding:.12rem .45rem; border-radius:.3rem; font-size:.65rem; }
+
+        /* CHIP SELECTOR */
+        .chip-opt { padding:.22rem .55rem; border-radius:.35rem; font-size:.7rem; font-weight:600; border:1px solid #374151; cursor:pointer; background:transparent; color:#6b7280; transition:all .15s; }
+        .chip-opt:hover { border-color:#6b7280; color:#d1d5db; }
+        .chip-opt.sel-sim { background:#14532d; border-color:#16a34a; color:#4ade80; }
+        .chip-opt.sel-nao { background:#450a0a; border-color:#b91c1c; color:#f87171; }
+        .chip-opt.sel-dun { background:#1f2937; border-color:#4b5563; color:#9ca3af; }
+
+        /* STATUS */
+        .s-id { color:#4ade80; font-size:.72rem; display:flex; align-items:center; gap:.25rem; }
+        .s-pend { color:#fb923c; font-size:.72rem; }
+
+        /* STAT CARD */
+        .stat { background:#091627; border:1px solid #1a2e45; border-radius:.75rem; padding:.875rem 1rem; }
+
+        /* PROGRESS */
+        .prog-bg { background:#1a2e45; border-radius:999px; height:7px; overflow:hidden; }
+        .prog-fill { background:linear-gradient(90deg,#16a34a,#22c55e); height:100%; border-radius:999px; transition:width .5s; }
+
+        /* VIEWS */
+        .view { display:none; }
+        .view.active { display:block; }
+
+        /* Toast */
+        #toast { position:fixed; top:55px; right:1rem; z-index:100; padding:.75rem 1.25rem; border-radius:.75rem; font-size:.85rem; font-weight:600; box-shadow:0 4px 24px #000; transition:opacity .3s; display:none; }
+
+        /* Select */
+        select.sel { background:#091627; border:1px solid #1e3248; color:#fff; padding:.5rem .75rem; border-radius:.5rem; font-size:.875rem; }
+
+        /* Modal */
+        .overlay { position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:40; display:none; }
+        .modal { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:90%; max-width:440px; z-index:50; background:#091627; border:1px solid #1a2e45; border-radius:1rem; padding:1.5rem; display:none; }
+        .modal-inp { background:#0f1f30; border:1px solid #1e3248; color:#fff; padding:.6rem .875rem; border-radius:.45rem; font-size:.875rem; width:100%; }
+        .modal-inp:focus { outline:none; border-color:#3b82f6; }
+        .modal-sel { background:#0f1f30; border:1px solid #1e3248; color:#fff; padding:.6rem .875rem; border-radius:.45rem; font-size:.875rem; width:100%; }
+    </style>
+</head>
+<body>
+
+<!-- ── MOCKUP NAV ── -->
+<div class="mock-nav">
+    <span>◆ MOCKUP</span>
+    <button class="mock-btn active" onclick="showView('login')">Login</button>
+    <button class="mock-btn" onclick="showView('dash-gestor')">Dashboard – Gestor</button>
+    <button class="mock-btn" onclick="showView('dash-admin')">Dashboard – SuperAdmin</button>
+    <button class="mock-btn" onclick="showView('admin')">Gestão de Usuários</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     VIEW: LOGIN
+══════════════════════════════════════════ -->
+<div class="view active" id="view-login">
+    <header class="hdr" style="top:40px">
+        <div class="flex items-center justify-between max-w-7xl mx-auto px-2">
+            <svg width="52" height="38" viewBox="0 0 52 38">
+                <ellipse cx="26" cy="19" rx="24" ry="17" fill="none" stroke="#c8a026" stroke-width="2"/>
+                <ellipse cx="26" cy="19" rx="19" ry="12" fill="none" stroke="#c8a026" stroke-width="1" opacity=".4"/>
+                <text x="26" y="25" text-anchor="middle" fill="#fff" font-size="16" font-weight="800" font-family="Arial">JB</text>
+            </svg>
+        </div>
+    </header>
+    <div class="flex items-center justify-center min-h-screen px-4 py-16">
+        <div class="card rounded-2xl p-8 w-full max-w-sm shadow-2xl">
+            <div class="text-center mb-7">
+                <h1 class="text-2xl font-bold">Chips e Linha</h1>
+                <p class="text-sm mt-1" style="color:#4b6280">Bem-vindo!</p>
+            </div>
+            <div class="space-y-4">
+                <input type="text" class="inp" placeholder="Usuário">
+                <input type="password" class="inp" placeholder="Senha">
+                <div><a href="#" class="text-blue-400 text-sm hover:text-blue-300">Esqueceu sua senha?</a></div>
+                <div class="flex gap-3 pt-1">
+                    <button class="btn-o flex-1 py-3 rounded-xl text-sm">Limpar</button>
+                    <button class="btn-g flex-1 py-3 rounded-xl text-sm">Entrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="py-4 text-center" style="color:#1e3248;font-size:.72rem">
+        <p>© Grupo JB, Transporte e Logística</p>
+        <p>© 2026 – Todos os direitos reservados</p>
+    </footer>
+</div>
+
+<!-- ══════════════════════════════════════════
+     VIEW: DASHBOARD – GESTOR (TRANSCLEBER)
+══════════════════════════════════════════ -->
+<div class="view" id="view-dash-gestor">
+    <header class="hdr" style="top:40px">
+        <div class="flex items-center justify-between max-w-7xl mx-auto">
+            <div class="flex items-center gap-3">
+                <svg width="48" height="34" viewBox="0 0 48 34">
+                    <ellipse cx="24" cy="17" rx="22" ry="15" fill="none" stroke="#c8a026" stroke-width="2"/>
+                    <ellipse cx="24" cy="17" rx="17" ry="10" fill="none" stroke="#c8a026" stroke-width="1" opacity=".4"/>
+                    <text x="24" y="23" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" font-family="Arial">JB</text>
+                </svg>
+                <span class="font-semibold hidden sm:block">Chips e Linha</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-blue-700 flex items-center justify-center text-xs font-bold">GT</div>
+                <div class="hidden sm:block text-right">
+                    <div class="text-sm font-medium leading-tight">Gestor Transcleber</div>
+                    <div class="text-xs" style="color:#4b6280">gestor.transcleber | Gestor</div>
+                </div>
+                <button class="text-gray-500 hover:text-red-400 ml-1">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-6">
+        <div class="mb-5">
+            <h1 class="text-xl font-bold">Identificação de Linhas</h1>
+            <p class="text-sm mt-0.5" style="color:#4b6280">Filial: <span class="text-blue-400 font-medium">TRANSCLEBER</span></p>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+            <div class="stat"><p class="text-xs mb-1" style="color:#4b6280">Total de Linhas</p><p class="text-2xl font-bold text-blue-400" id="g-total">8</p></div>
+            <div class="stat"><p class="text-xs mb-1" style="color:#4b6280">Identificadas</p><p class="text-2xl font-bold text-green-400" id="g-ident">3</p></div>
+            <div class="stat"><p class="text-xs mb-1" style="color:#4b6280">Pendentes</p><p class="text-2xl font-bold text-orange-400" id="g-pend">5</p></div>
+            <div class="stat"><p class="text-xs mb-1" style="color:#4b6280">Com Chip Físico</p><p class="text-2xl font-bold text-purple-400" id="g-chip">2</p></div>
+        </div>
+
+        <!-- Progress -->
+        <div class="mb-6">
+            <div class="flex justify-between text-xs mb-1.5" style="color:#4b6280">
+                <span>Progresso de identificação</span>
+                <span id="g-prog-txt">3 / 8 (38%)</span>
+            </div>
+            <div class="prog-bg"><div class="prog-fill" id="g-prog-bar" style="width:38%"></div></div>
+        </div>
+
+        <!-- ── DESKTOP TABLE ── -->
+        <div class="hidden md:block card overflow-hidden mb-4">
+            <table class="tbl">
+                <thead>
+                    <tr>
+                        <th>#</th><th>Número</th><th>Plano</th>
+                        <th style="min-width:220px">Setor / Usuário</th>
+                        <th class="text-center">Chip Físico</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="g-tbody">
+                    <!-- rows injected by JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ── MOBILE CARDS ── -->
+        <div class="md:hidden space-y-3" id="g-cards">
+            <!-- cards injected by JS -->
+        </div>
+    </main>
+</div>
+
+<!-- ══════════════════════════════════════════
+     VIEW: DASHBOARD – SUPERADMIN
+══════════════════════════════════════════ -->
+<div class="view" id="view-dash-admin">
+    <header class="hdr" style="top:40px">
+        <div class="flex items-center justify-between max-w-7xl mx-auto">
+            <div class="flex items-center gap-3">
+                <svg width="48" height="34" viewBox="0 0 48 34">
+                    <ellipse cx="24" cy="17" rx="22" ry="15" fill="none" stroke="#c8a026" stroke-width="2"/>
+                    <ellipse cx="24" cy="17" rx="17" ry="10" fill="none" stroke="#c8a026" stroke-width="1" opacity=".4"/>
+                    <text x="24" y="23" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" font-family="Arial">JB</text>
+                </svg>
+                <span class="font-semibold hidden sm:block">Chips e Linha</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="#" class="text-xs text-purple-400 border border-purple-800 px-3 py-1.5 rounded-lg hidden sm:block">Gestão de Usuários</a>
+                <div class="w-8 h-8 rounded-full bg-purple-700 flex items-center justify-center text-xs font-bold">KF</div>
+                <div class="hidden sm:block text-right">
+                    <div class="text-sm font-medium leading-tight">Kelson Fonteles</div>
+                    <div class="text-xs" style="color:#4b6280">kelsonfonteles | SuperAdmin</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-6">
+        <div class="mb-5">
+            <h1 class="text-xl font-bold">Identificação de Linhas</h1>
+            <p class="text-sm mt-0.5" style="color:#4b6280">Filial: <span class="text-blue-400 font-medium">Todas as filiais</span></p>
+        </div>
+
+        <!-- Stats ALL -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+            <div class="stat"><p class="text-xs mb-1" style="color:#4b6280">Total de Linhas</p><p class="text-2xl font-bold text-blue-400">148</p></div>
+            <div class="stat"><p class="text-xs mb-1" style="color:#4b6280">Identificadas</p><p class="text-2xl font-bold text-green-400">3</p></div>
+            <div class="stat"><p class="text-xs mb-1" style="color:#4b6280">Pendentes</p><p class="text-2xl font-bold text-orange-400">145</p></div>
+            <div class="stat"><p class="text-xs mb-1" style="color:#4b6280">Com Chip Físico</p><p class="text-2xl font-bold text-purple-400">2</p></div>
+        </div>
+
+        <!-- Progress all -->
+        <div class="mb-5">
+            <div class="flex justify-between text-xs mb-1.5" style="color:#4b6280">
+                <span>Progresso geral</span><span>3 / 148 (2%)</span>
+            </div>
+            <div class="prog-bg"><div class="prog-fill" style="width:2%"></div></div>
+        </div>
+
+        <!-- Filter -->
+        <div class="mb-5 flex items-center gap-3 flex-wrap">
+            <label class="text-sm" style="color:#4b6280">Filtrar por filial:</label>
+            <select class="sel">
+                <option>Todas as filiais</option>
+                <option>TRANSCLEBER</option>
+                <option>BM_PI</option>
+                <option>JB_MA</option>
+                <option>JB_PI</option>
+            </select>
+        </div>
+
+        <!-- Table (superadmin - with filial col + Atualizar btn) -->
+        <div class="card overflow-x-auto">
+            <table class="tbl">
+                <thead>
+                    <tr>
+                        <th>#</th><th>Filial</th><th>Número</th><th>Plano</th>
+                        <th style="min-width:200px">Setor / Usuário</th>
+                        <th class="text-center">Chip Físico</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- locked row (already identified) - superadmin CAN edit -->
+                    <tr>
+                        <td class="text-gray-600 text-xs">1</td>
+                        <td><span class="badge-fil">TRANSCLEBER</span></td>
+                        <td class="font-mono font-semibold text-blue-300">85-9-9748-3169</td>
+                        <td><span class="badge-plan">Pacote 10GB</span></td>
+                        <td><input type="text" class="inp-setor" value="LOGÍSTICA" style="opacity:1"></td>
+                        <td class="text-center">
+                            <div class="flex justify-center gap-1">
+                                <button class="chip-opt sel-sim">Sim</button>
+                                <button class="chip-opt">Não</button>
+                                <button class="chip-opt">?</button>
+                            </div>
+                        </td>
+                        <td class="text-center"><span class="s-id"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Identificado</span></td>
+                        <td class="text-center"><button class="btn-upd">Atualizar</button></td>
+                    </tr>
+                    <!-- pending rows -->
+                    <tr>
+                        <td class="text-gray-600 text-xs">2</td>
+                        <td><span class="badge-fil">TRANSCLEBER</span></td>
+                        <td class="font-mono font-semibold text-blue-300">85-9-9181-0510</td>
+                        <td><span class="badge-plan">Pacote 50GB</span></td>
+                        <td><input type="text" class="inp-setor" placeholder="Digite o setor ou usuário..."></td>
+                        <td class="text-center">
+                            <div class="flex justify-center gap-1">
+                                <button class="chip-opt">Sim</button>
+                                <button class="chip-opt">Não</button>
+                                <button class="chip-opt sel-dun">?</button>
+                            </div>
+                        </td>
+                        <td class="text-center"><span class="s-pend">Pendente</span></td>
+                        <td class="text-center"><button class="btn-save">Salvar</button></td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-600 text-xs">3</td>
+                        <td><span class="badge-fil">BM_PI</span></td>
+                        <td class="font-mono font-semibold text-blue-300">86-9-9903-0213</td>
+                        <td><span class="badge-plan">Pacote 6GB</span></td>
+                        <td><input type="text" class="inp-setor" placeholder="Digite o setor ou usuário..."></td>
+                        <td class="text-center">
+                            <div class="flex justify-center gap-1">
+                                <button class="chip-opt">Sim</button>
+                                <button class="chip-opt sel-nao">Não</button>
+                                <button class="chip-opt">?</button>
+                            </div>
+                        </td>
+                        <td class="text-center"><span class="s-pend">Pendente</span></td>
+                        <td class="text-center"><button class="btn-save">Salvar</button></td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-600 text-xs">4</td>
+                        <td><span class="badge-fil">JB_PI</span></td>
+                        <td class="font-mono font-semibold text-blue-300">86-9-9902-2500</td>
+                        <td><span class="badge-plan">Pacote 10GB</span></td>
+                        <td><input type="text" class="inp-setor" placeholder="Digite o setor ou usuário..."></td>
+                        <td class="text-center">
+                            <div class="flex justify-center gap-1">
+                                <button class="chip-opt">Sim</button>
+                                <button class="chip-opt">Não</button>
+                                <button class="chip-opt sel-dun">?</button>
+                            </div>
+                        </td>
+                        <td class="text-center"><span class="s-pend">Pendente</span></td>
+                        <td class="text-center"><button class="btn-save">Salvar</button></td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-600 text-xs">5</td>
+                        <td><span class="badge-fil">JB_MA</span></td>
+                        <td class="font-mono font-semibold text-blue-300">99-9-8112-1254</td>
+                        <td><span class="badge-plan">Pacote 10GB</span></td>
+                        <td><input type="text" class="inp-setor" value="OPERAÇÕES" style="opacity:1"></td>
+                        <td class="text-center">
+                            <div class="flex justify-center gap-1">
+                                <button class="chip-opt sel-sim">Sim</button>
+                                <button class="chip-opt">Não</button>
+                                <button class="chip-opt">?</button>
+                            </div>
+                        </td>
+                        <td class="text-center"><span class="s-id"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Identificado</span></td>
+                        <td class="text-center"><button class="btn-upd">Atualizar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<!-- ══════════════════════════════════════════
+     VIEW: GESTÃO DE USUÁRIOS
+══════════════════════════════════════════ -->
+<div class="view" id="view-admin">
+    <header class="hdr" style="top:40px">
+        <div class="flex items-center justify-between max-w-7xl mx-auto">
+            <div class="flex items-center gap-3">
+                <svg width="48" height="34" viewBox="0 0 48 34">
+                    <ellipse cx="24" cy="17" rx="22" ry="15" fill="none" stroke="#c8a026" stroke-width="2"/>
+                    <ellipse cx="24" cy="17" rx="17" ry="10" fill="none" stroke="#c8a026" stroke-width="1" opacity=".4"/>
+                    <text x="24" y="23" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" font-family="Arial">JB</text>
+                </svg>
+                <span class="font-semibold">Chips e Linha</span>
+                <span style="color:#374151">/</span>
+                <span class="text-purple-400 text-sm">Gestão de Usuários</span>
+            </div>
+            <a href="#" class="text-xs text-blue-400 border border-blue-800 px-3 py-1.5 rounded-lg">← Dashboard</a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-6">
+        <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+            <div>
+                <h1 class="text-xl font-bold">Usuários do Sistema</h1>
+                <p class="text-sm mt-0.5" style="color:#4b6280">5 usuários · 5 ativos</p>
+            </div>
+            <button class="btn-g" onclick="openUserModal()">+ Novo Usuário</button>
+        </div>
+
+        <div class="card overflow-x-auto">
+            <table class="tbl">
+                <thead>
+                    <tr>
+                        <th>Usuário</th><th>Nome</th><th>Filial</th>
+                        <th>Perfil</th><th>Status</th><th>Desde</th><th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="font-mono text-blue-300">kelsonfonteles</td>
+                        <td>Kelson Fonteles</td>
+                        <td><span style="color:#4b6280;font-size:.75rem">—</span></td>
+                        <td><span style="background:#3b0764;border:1px solid #7c3aed;color:#c4b5fd;padding:.12rem .45rem;border-radius:.3rem;font-size:.65rem">SuperAdmin</span></td>
+                        <td><span style="background:#14532d;border:1px solid #16a34a;color:#4ade80;padding:.12rem .45rem;border-radius:.3rem;font-size:.65rem">Ativo</span></td>
+                        <td style="color:#4b6280;font-size:.75rem">01/06/2026</td>
+                        <td class="text-center"><button style="background:#1e3a6e;color:#93c5fd;border:1px solid #1d4ed8;padding:.3rem .7rem;border-radius:.375rem;font-size:.7rem;cursor:pointer" onclick="openUserModal()">Editar</button></td>
+                    </tr>
+                    <tr>
+                        <td class="font-mono text-blue-300">gestor.transcleber</td>
+                        <td>Gestor TRANSCLEBER</td>
+                        <td><span style="background:#0f2038;border:1px solid #1e3a6e;color:#60a5fa;padding:.12rem .45rem;border-radius:.3rem;font-size:.65rem">TRANSCLEBER</span></td>
+                        <td><span style="background:#0c1f38;border:1px solid #1d4ed8;color:#60a5fa;padding:.12rem .45rem;border-radius:.3rem;font-size:.65rem">Gestor</span></td>
+                        <td><span style="background:#14532d;border:1px solid #16a34a;color:#4ade80;padding:.12rem .45rem;border-radius:.3rem;font-size:.65rem">Ativo</span></td>
+                        <td style="color:#4b6280;font-size:.75rem">01/06/2026</td>
+                        <td class="text-center"><div class="flex justify-center gap-2">
+                            <button style="background:#1e3a6e;color:#93c5fd;border:1px solid #1d4ed8;padding:.3rem .7rem;border-radius:.375rem;font-size:.7rem;cursor:pointer" onclick="openUserModal()">Editar</button>
+                            <button style="background:#450a0a;color:#fca5a5;border:1px solid #7f1d1d;padding:.3rem .7rem;border-radius:.375rem;font-size:.7rem;cursor:pointer">Desativar</button>
+                        </div></td>
+                    </tr>
+                    <tr>
+                        <td class="font-mono text-blue-300">gestor.bmpi</td>
+                        <td>Gestor BM_PI</td>
+                        <td><span style="background:#0f2038;border:1px solid #1e3a6e;color:#60a5fa;padding:.12rem .45rem;border-radius:.3rem;font-size:.65rem">BM_PI</span></td>
+                        <td><span style="background:#0c1f38;border:1px solid #1d4ed8;color:#60a5fa;padding:.12rem .45rem;border-radius:.3rem;font-size:.65rem">Gestor</span></td>
+                        <td><span style="background:#14532d;border:1px solid #16a34a;color:#4ade80;padding:.12rem .45rem;border-radius:.3rem;font-size:.65rem">Ativo</span></td>
+                        <td style="color:#4b6280;font-size:.75rem">01/06/2026</td>
+                        <td class="text-center"><div class="flex justify-center gap-2">
+                            <button style="background:#1e3a6e;color:#93c5fd;border:1px solid #1d4ed8;padding:.3rem .7rem;border-radius:.375rem;font-size:.7rem;cursor:pointer" onclick="openUserModal()">Editar</button>
+                            <button style="background:#450a0a;color:#fca5a5;border:1px solid #7f1d1d;padding:.3rem .7rem;border-radius:.375rem;font-size:.7rem;cursor:pointer">Desativar</button>
+                        </div></td>
+                    </tr>
+                    <tr>
+                        <td class="font-mono text-blue-300">gestor.jbma</td>
+                        <td>Gestor JB_MA</td>
+                        <td><span style="background:#0f2038;border:1px solid #1e3a6e;color:#60a5fa;padding:.12rem .45rem;border-radius:.3rem;font-size:.65rem">JB_MA</span></td>
+                        <td><span style="background:#0c1f38;border:1px solid #1d4ed8;color:#60a5fa;padding:.12rem .45rem;border-radius:.3rem;font-size:.65rem">Gestor</span></td>
+                        <td><span style="background:#14532d;border:1px solid #16a34a;color:#4ade80;padding:.12rem .45rem;border-radius:.3rem;font-size:.65rem">Ativo</span></td>
+                        <td style="color:#4b6280;font-size:.75rem">01/06/2026</td>
+                        <td class="text-center"><div class="flex justify-center gap-2">
+                            <button style="background:#1e3a6e;color:#93c5fd;border:1px solid #1d4ed8;padding:.3rem .7rem;border-radius:.375rem;font-size:.7rem;cursor:pointer" onclick="openUserModal()">Editar</button>
+                            <button style="background:#450a0a;color:#fca5a5;border:1px solid #7f1d1d;padding:.3rem .7rem;border-radius:.375rem;font-size:.7rem;cursor:pointer">Desativar</button>
+                        </div></td>
+                    </tr>
+                    <tr>
+                        <td class="font-mono text-blue-300">gestor.jbpi</td>
+                        <td>Gestor JB_PI</td>
+                        <td><span style="background:#0f2038;border:1px solid #1e3a6e;color:#60a5fa;padding:.12rem .45rem;border-radius:.3rem;font-size:.65rem">JB_PI</span></td>
+                        <td><span style="background:#0c1f38;border:1px solid #1d4ed8;color:#60a5fa;padding:.12rem .45rem;border-radius:.3rem;font-size:.65rem">Gestor</span></td>
+                        <td><span style="background:#14532d;border:1px solid #16a34a;color:#4ade80;padding:.12rem .45rem;border-radius:.3rem;font-size:.65rem">Ativo</span></td>
+                        <td style="color:#4b6280;font-size:.75rem">01/06/2026</td>
+                        <td class="text-center"><div class="flex justify-center gap-2">
+                            <button style="background:#1e3a6e;color:#93c5fd;border:1px solid #1d4ed8;padding:.3rem .7rem;border-radius:.375rem;font-size:.7rem;cursor:pointer" onclick="openUserModal()">Editar</button>
+                            <button style="background:#450a0a;color:#fca5a5;border:1px solid #7f1d1d;padding:.3rem .7rem;border-radius:.375rem;font-size:.7rem;cursor:pointer">Desativar</button>
+                        </div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<!-- OVERLAY + MODAL usuario -->
+<div class="overlay" id="u-overlay" onclick="closeUserModal()"></div>
+<div class="modal" id="u-modal">
+    <h2 class="text-lg font-bold mb-5" id="u-title">Novo Usuário</h2>
+    <div class="space-y-3">
+        <div><label class="text-xs mb-1 block" style="color:#4b6280">USERNAME *</label>
+            <input class="modal-inp" placeholder="ex: joao.silva"></div>
+        <div><label class="text-xs mb-1 block" style="color:#4b6280">NOME COMPLETO</label>
+            <input class="modal-inp" placeholder="Nome do gestor"></div>
+        <div><label class="text-xs mb-1 block" style="color:#4b6280">SENHA *</label>
+            <input type="password" class="modal-inp" placeholder="Senha de acesso"></div>
+        <div><label class="text-xs mb-1 block" style="color:#4b6280">FILIAL</label>
+            <select class="modal-sel">
+                <option>— Sem filial —</option>
+                <option>TRANSCLEBER</option>
+                <option>BM_PI</option>
+                <option>JB_MA</option>
+                <option>JB_PI</option>
+            </select></div>
+        <div><label class="text-xs mb-1 block" style="color:#4b6280">PERFIL</label>
+            <select class="modal-sel">
+                <option>Gestor</option>
+                <option>SuperAdmin</option>
+            </select></div>
+    </div>
+    <div class="flex gap-3 mt-6">
+        <button class="btn-o flex-1" onclick="closeUserModal()">Cancelar</button>
+        <button class="btn-g flex-1" onclick="closeUserModal()">Salvar</button>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ── View switcher ──
+function showView(name) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.mock-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
+
+// ── Gestor dashboard data ──
+const ROWS = [
+    {id:1, phone:'85-9-9748-3169', plan:'Pacote 10GB', setor:'LOGÍSTICA',    chip:1,    locked:true},
+    {id:2, phone:'85-9-9181-0510', plan:'Pacote 50GB', setor:'DIRETORIA',    chip:1,    locked:true},
+    {id:3, phone:'85-9-9104-1999', plan:'Pacote 50GB', setor:'TI',           chip:null, locked:true},
+    {id:4, phone:'85-9-9117-0377', plan:'Pacote 50GB', setor:'',             chip:null, locked:false},
+    {id:5, phone:'85-9-9963-0160', plan:'Pacote 10GB', setor:'',             chip:null, locked:false},
+    {id:6, phone:'85-9-9963-3567', plan:'Pacote 10GB', setor:'',             chip:null, locked:false},
+    {id:7, phone:'85-9-9963-3694', plan:'Pacote 10GB', setor:'',             chip:null, locked:false},
+    {id:8, phone:'85-9-9973-0032', plan:'Pacote 6GB',  setor:'',             chip:null, locked:false},
+];
+
+const chipSel = {}; // chip selection state per row id
+
+function chipClass(v) { return v===1?'sel-sim':v===0?'sel-nao':''; }
+function chipLabel(v) { return v===1?'Sim':v===0?'Não':'?'; }
+function chipBadgeHtml(v) {
+    const cls = v===1?'chip-g':v===0?'chip-r':'chip-u';
+    return `<span class="${cls}">${chipLabel(v)}</span>`;
+}
+
+function renderTable() {
+    const tbody = document.getElementById('g-tbody');
+    tbody.innerHTML = ROWS.map((r,i) => {
+        if (r.locked) {
+            return `<tr id="tr-${r.id}" data-id="${r.id}" data-filled="1">
+                <td class="text-gray-600 text-xs">${i+1}</td>
+                <td class="font-mono font-semibold text-blue-300">${r.phone}</td>
+                <td><span class="badge-plan">${r.plan}</span></td>
+                <td><span class="font-medium uppercase text-white text-sm">${r.setor}</span></td>
+                <td class="text-center">${chipBadgeHtml(r.chip)}</td>
+                <td class="text-center"><span class="s-id"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Identificado</span></td>
+                <td class="text-center">
+                    <svg width="15" height="15" fill="none" stroke="#22c55e" stroke-width="2" viewBox="0 0 24 24" style="margin:auto">
+                        <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                </td>
+            </tr>`;
+        }
+        const cv = chipSel[r.id] ?? null;
+        return `<tr id="tr-${r.id}" data-id="${r.id}" data-filled="0">
+            <td class="text-gray-600 text-xs">${i+1}</td>
+            <td class="font-mono font-semibold text-blue-300">${r.phone}</td>
+            <td><span class="badge-plan">${r.plan}</span></td>
+            <td><input type="text" id="setor-${r.id}" class="inp-setor" placeholder="Digite o setor ou usuário..."
+                 value="${r.setor}" onkeyup="this.value=this.value.toUpperCase()"></td>
+            <td class="text-center" id="chip-${r.id}">
+                <div class="flex justify-center gap-1">
+                    <button class="chip-opt ${cv===1?'sel-sim':''}" onclick="selChip(${r.id},1)">Sim</button>
+                    <button class="chip-opt ${cv===0?'sel-nao':''}" onclick="selChip(${r.id},0)">Não</button>
+                    <button class="chip-opt ${cv===null?'sel-dun':''}" onclick="selChip(${r.id},null)">?</button>
+                </div>
+            </td>
+            <td class="text-center"><span class="s-pend">Pendente</span></td>
+            <td class="text-center"><button class="btn-save" onclick="saveRow(${r.id})">Salvar</button></td>
+        </tr>`;
+    }).join('');
+}
+
+function renderCards() {
+    const cont = document.getElementById('g-cards');
+    cont.innerHTML = ROWS.map(r => {
+        if (r.locked) {
+            return `<div class="card p-4" data-id="${r.id}" data-filled="1">
+                <div class="flex items-start justify-between mb-3">
+                    <div>
+                        <p class="font-mono font-bold text-blue-300 text-lg">${r.phone}</p>
+                        <span class="badge-plan mt-1 inline-block">${r.plan}</span>
+                    </div>
+                    <span class="text-green-400"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg></span>
+                </div>
+                <div class="mb-3">
+                    <label class="text-xs mb-1 block" style="color:#4b6280">SETOR / USUÁRIO</label>
+                    <p class="font-semibold uppercase text-sm">${r.setor}</p>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div><label class="text-xs block mb-1" style="color:#4b6280">CHIP FÍSICO</label>${chipBadgeHtml(r.chip)}</div>
+                    <div class="flex items-center gap-1 text-green-400 text-xs">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        Bloqueado
+                    </div>
+                </div>
+            </div>`;
+        }
+        const cv = chipSel[r.id] ?? null;
+        return `<div class="card p-4" id="card-${r.id}" data-id="${r.id}" data-filled="0">
+            <div class="flex items-start justify-between mb-3">
+                <div>
+                    <p class="font-mono font-bold text-blue-300 text-lg">${r.phone}</p>
+                    <span class="badge-plan mt-1 inline-block">${r.plan}</span>
+                </div>
+                <span class="text-orange-500"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+            </div>
+            <div class="mb-3">
+                <label class="text-xs mb-1 block" style="color:#4b6280">SETOR / USUÁRIO</label>
+                <input type="text" id="csetor-${r.id}" class="inp-setor" placeholder="Digite o setor ou usuário..."
+                       onkeyup="this.value=this.value.toUpperCase()">
+            </div>
+            <div class="flex items-center justify-between flex-wrap gap-2">
+                <div>
+                    <label class="text-xs block mb-1.5" style="color:#4b6280">CHIP FÍSICO</label>
+                    <div class="flex gap-1.5" id="cchip-${r.id}">
+                        <button class="chip-opt ${cv===1?'sel-sim':''}" onclick="selChipCard(${r.id},1)">Sim</button>
+                        <button class="chip-opt ${cv===0?'sel-nao':''}" onclick="selChipCard(${r.id},0)">Não</button>
+                        <button class="chip-opt ${cv===null?'sel-dun':''}" onclick="selChipCard(${r.id},null)">?</button>
+                    </div>
+                </div>
+                <button class="btn-save" onclick="saveCard(${r.id})">Salvar</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function selChip(id, val) {
+    chipSel[id] = val;
+    const cell = document.getElementById('chip-' + id);
+    cell.querySelectorAll('.chip-opt').forEach((b,i) => {
+        b.className = 'chip-opt';
+        if ((i===0&&val===1)||(i===1&&val===0)||(i===2&&val===null)) b.className += ' '+(val===1?'sel-sim':val===0?'sel-nao':'sel-dun');
+    });
+}
+
+function selChipCard(id, val) {
+    chipSel[id] = val;
+    const cont = document.getElementById('cchip-' + id);
+    cont.querySelectorAll('.chip-opt').forEach((b,i) => {
+        b.className = 'chip-opt';
+        if ((i===0&&val===1)||(i===1&&val===0)||(i===2&&val===null)) b.className += ' '+(val===1?'sel-sim':val===0?'sel-nao':'sel-dun');
+    });
+}
+
+function saveRow(id) {
+    const setor = (document.getElementById('setor-' + id)?.value||'').trim().toUpperCase();
+    if (!setor) { showToast('Informe o Setor ou Usuário', 'err'); return; }
+    const row = ROWS.find(r => r.id === id);
+    row.setor  = setor;
+    row.chip   = chipSel[id] ?? null;
+    row.locked = true;
+    renderTable();
+    updateStats();
+    showToast('Salvo com sucesso!', 'ok');
+}
+
+function saveCard(id) {
+    const setor = (document.getElementById('csetor-' + id)?.value||'').trim().toUpperCase();
+    if (!setor) { showToast('Informe o Setor ou Usuário', 'err'); return; }
+    const row = ROWS.find(r => r.id === id);
+    row.setor  = setor;
+    row.chip   = chipSel[id] ?? null;
+    row.locked = true;
+    renderCards();
+    updateStats();
+    showToast('Salvo com sucesso!', 'ok');
+}
+
+function updateStats() {
+    const ident = ROWS.filter(r=>r.locked).length;
+    const pend  = ROWS.length - ident;
+    const chip  = ROWS.filter(r=>r.chip===1).length;
+    const pct   = Math.round(ident/ROWS.length*100);
+    document.getElementById('g-total').textContent = ROWS.length;
+    document.getElementById('g-ident').textContent = ident;
+    document.getElementById('g-pend').textContent  = pend;
+    document.getElementById('g-chip').textContent  = chip;
+    document.getElementById('g-prog-txt').textContent = `${ident} / ${ROWS.length} (${pct}%)`;
+    document.getElementById('g-prog-bar').style.width = pct + '%';
+}
+
+function showToast(msg, type) {
+    const el = document.getElementById('toast');
+    el.textContent  = msg;
+    el.style.display = 'block';
+    el.style.opacity = '1';
+    el.style.background = type==='ok'?'#14532d':'#450a0a';
+    el.style.border     = type==='ok'?'1px solid #16a34a':'1px solid #b91c1c';
+    el.style.color      = type==='ok'?'#4ade80':'#fca5a5';
+    setTimeout(() => { el.style.opacity='0'; setTimeout(()=>el.style.display='none',300); }, 2500);
+}
+
+function openUserModal()  { document.getElementById('u-overlay').style.display='block'; document.getElementById('u-modal').style.display='block'; }
+function closeUserModal() { document.getElementById('u-overlay').style.display='none';  document.getElementById('u-modal').style.display='none'; }
+
+// init
+renderTable();
+renderCards();
+</script>
+</body>
+</html>

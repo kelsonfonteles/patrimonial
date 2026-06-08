@@ -1,0 +1,24 @@
+# Dependências
+vendor/
+node_modules/
+
+# Config local (não versionar credenciais)
+config.local.php
+
+# Uploads / dados
+*.csv
+*.zip
+
+# Logs
+*.log
+error_log
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
