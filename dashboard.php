@@ -116,10 +116,10 @@ if (!$superAdmin) {
 <header class="hdr px-4 py-3 sticky top-0 z-30">
     <div class="flex items-center justify-between max-w-7xl mx-auto">
         <div class="flex items-center gap-3">
-            <img src="<?= APP_URL ?>/img/logo.webp" alt="JB" height="34"
-                 style="max-height:34px;width:auto;object-fit:contain"
+            <img src="<?= APP_URL ?>/img/logo.webp" alt="JB" height="56"
+                 style="max-height:56px;width:auto;object-fit:contain"
                  onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='block'">
-            <svg width="48" height="34" viewBox="0 0 48 34" style="display:none">
+            <svg width="80" height="56" viewBox="0 0 80 56" style="display:none">
                 <ellipse cx="24" cy="17" rx="22" ry="15" fill="none" stroke="#c8a026" stroke-width="2"/>
                 <ellipse cx="24" cy="17" rx="17" ry="10" fill="none" stroke="#c8a026" stroke-width="1" opacity=".4"/>
                 <text x="24" y="23" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" font-family="Arial,sans-serif">JB</text>

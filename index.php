@@ -42,10 +42,10 @@ if (!empty($_SESSION['user_id'])) {
     <!-- header -->
     <header style="background:#050f1e;border-bottom:1px solid #1a2e45" class="px-4 py-3">
         <div class="flex items-center justify-between max-w-7xl mx-auto">
-            <img src="<?= APP_URL ?>/img/logo.webp" alt="JB" height="38"
-                 style="max-height:38px;width:auto;object-fit:contain"
+            <img src="<?= APP_URL ?>/img/logo.webp" alt="JB" height="56"
+                 style="max-height:56px;width:auto;object-fit:contain"
                  onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='block'">
-            <svg width="52" height="38" viewBox="0 0 52 38" style="display:none">
+            <svg width="80" height="56" viewBox="0 0 80 56" style="display:none">
                 <ellipse cx="26" cy="19" rx="24" ry="17" fill="none" stroke="#c8a026" stroke-width="2"/>
                 <ellipse cx="26" cy="19" rx="19" ry="12" fill="none" stroke="#c8a026" stroke-width="1" opacity=".4"/>
                 <text x="26" y="25" text-anchor="middle" fill="#fff" font-size="16" font-weight="800" font-family="Arial,sans-serif">JB</text>
