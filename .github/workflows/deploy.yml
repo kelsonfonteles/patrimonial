@@ -30,3 +30,4 @@ jobs:
             **/node_modules/**
             mockup.html
             instrucao.md
+            config.php
