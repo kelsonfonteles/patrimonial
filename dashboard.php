@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/auth.php';
@@ -129,7 +129,7 @@ if (!$superAdmin) {
         <div class="flex items-center gap-3">
             <?php if ($superAdmin): ?>
             <a href="<?= APP_URL ?>/admin.php" class="text-xs text-purple-400 hover:text-purple-300 hidden sm:block border border-purple-800 px-3 py-1.5 rounded-lg">
-                GestÃ£o de UsuÃ¡rios
+                Gestão de Usuários
             </a>
             <?php endif; ?>
             <div class="flex items-center gap-2">
@@ -155,7 +155,7 @@ if (!$superAdmin) {
 
     <!-- Page title -->
     <div class="mb-5">
-        <h1 class="text-xl font-bold text-white">IdentificaÃ§Ã£o de Linhas</h1>
+        <h1 class="text-xl font-bold text-white">Identificação de Linhas</h1>
         <p class="text-sm text-gray-500 mt-0.5">
             Filial: <span class="text-blue-400 font-medium"><?= htmlspecialchars($filialLabel) ?></span>
         </p>
@@ -176,7 +176,7 @@ if (!$superAdmin) {
             <p class="text-2xl font-bold text-orange-400" id="cnt-pend"><?= $pendentes ?></p>
         </div>
         <div class="stat-card">
-            <p class="text-xs text-gray-500 mb-1">Com Chip FÃ­sico</p>
+            <p class="text-xs text-gray-500 mb-1">Com Chip Físico</p>
             <p class="text-2xl font-bold text-purple-400" id="cnt-chip"><?= $comChip ?></p>
         </div>
     </div>
@@ -184,7 +184,7 @@ if (!$superAdmin) {
     <!-- Progress -->
     <div class="mb-5">
         <div class="flex justify-between text-xs text-gray-500 mb-1.5">
-            <span>Progresso de identificaÃ§Ã£o</span>
+            <span>Progresso de identificação</span>
             <span id="prog-txt"><?= $identificados ?> / <?= $total ?> (<?= $progPct ?>%)</span>
         </div>
         <div class="progress-bar">
@@ -196,16 +196,15 @@ if (!$superAdmin) {
     <div class="mb-5">
         <div class="flex gap-2 mb-2">
             <div class="search-wrap flex-1">
-
-            <span class="search-icon">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                </svg>
-            </span>
-            <input type="text" id="busca" class="search-inp"
-                   placeholder="Pesquisar por nÃºmero, setor ou plano..."
-                   oninput="filtrar(this.value)">
-            <button class="search-clear" id="busca-clear" style="display:none" onclick="limparBusca()">âœ•</button>
+                <span class="search-icon">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                </span>
+                <input type="text" id="busca" class="search-inp"
+                       placeholder="Pesquisar por número, setor ou plano..."
+                       oninput="filtrar(this.value)">
+                <button class="search-clear" id="busca-clear" style="display:none" onclick="limparBusca()">✕</button>
             </div>
             <a href="<?= APP_URL ?>/api/export_excel.php<?= $filialFilter ? '?filial=' . $filialFilter : '' ?>"
                class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold whitespace-nowrap"
@@ -241,7 +240,7 @@ if (!$superAdmin) {
     <div class="card p-10 text-center text-gray-500">
         <p class="text-lg">Nenhuma linha encontrada.</p>
         <?php if (!$superAdmin && !$user['filial_id']): ?>
-        <p class="text-sm mt-2">Seu usuÃ¡rio nÃ£o estÃ¡ associado a nenhuma filial. Contate o administrador.</p>
+        <p class="text-sm mt-2">Seu usuário não está associado a nenhuma filial. Contate o administrador.</p>
         <?php endif; ?>
     </div>
     <?php else: ?>
@@ -255,12 +254,12 @@ if (!$superAdmin) {
                     <?php if ($superAdmin && !$filialFilter): ?>
                     <th class="text-left">Filial</th>
                     <?php endif; ?>
-                    <th class="text-left">NÃºmero</th>
+                    <th class="text-left">Número</th>
                     <th class="text-left">Plano</th>
-                    <th class="text-left" style="min-width:200px">Setor / UsuÃ¡rio</th>
-                    <th class="text-center">Chip FÃ­sico</th>
+                    <th class="text-left" style="min-width:200px">Setor / Usuário</th>
+                    <th class="text-center">Chip Físico</th>
                     <th class="text-center">Status</th>
-                    <th class="text-center">AÃ§Ã£o</th>
+                    <th class="text-center">Ação</th>
                 </tr>
             </thead>
             <tbody id="tbody-linhas">
@@ -283,7 +282,7 @@ if (!$superAdmin) {
                         <?php else: ?>
                         <input type="text" id="setor-<?= $l['id'] ?>"
                                class="inp-setor"
-                               placeholder="Digite o setor ou usuÃ¡rio..."
+                               placeholder="Digite o setor ou usuário..."
                                value="<?= htmlspecialchars($l['setor_usuario'] ?? '') ?>"
                                <?= ($locked) ? 'disabled' : '' ?>
                                onkeyup="this.value=this.value.toUpperCase()">
@@ -297,7 +296,7 @@ if (!$superAdmin) {
                         <?php else: ?>
                         <div class="flex justify-center gap-1">
                             <button class="chip-btn <?= $chip === '1' ? 'active-sim' : 'idle' ?>" onclick="setChip(<?= $l['id'] ?>,1,this)" data-val="1">Sim</button>
-                            <button class="chip-btn <?= $chip === '0' ? 'active-nao' : 'idle' ?>" onclick="setChip(<?= $l['id'] ?>,0,this)" data-val="0">NÃ£o</button>
+                            <button class="chip-btn <?= $chip === '0' ? 'active-nao' : 'idle' ?>" onclick="setChip(<?= $l['id'] ?>,0,this)" data-val="0">Não</button>
                             <button class="chip-btn <?= $chip === null ? 'active-dun' : 'idle' ?>" onclick="setChip(<?= $l['id'] ?>,null,this)" data-val="">?</button>
                         </div>
                         <?php endif; ?>
@@ -368,13 +367,13 @@ if (!$superAdmin) {
 
             <!-- Setor -->
             <div class="mb-3">
-                <label class="text-xs text-gray-500 mb-1 block">SETOR / USUÃRIO</label>
+                <label class="text-xs text-gray-500 mb-1 block">SETOR / USUÁRIO</label>
                 <?php if ($filled && !$superAdmin): ?>
                 <p class="text-white font-semibold uppercase text-sm" id="card-setor-txt-<?= $l['id'] ?>"><?= htmlspecialchars($l['setor_usuario']) ?></p>
                 <?php else: ?>
                 <input type="text" id="card-setor-<?= $l['id'] ?>"
                        class="inp-setor"
-                       placeholder="Digite o setor ou usuÃ¡rio..."
+                       placeholder="Digite o setor ou usuário..."
                        value="<?= htmlspecialchars($l['setor_usuario'] ?? '') ?>"
                        <?= ($locked) ? 'disabled' : '' ?>
                        onkeyup="this.value=this.value.toUpperCase()">
@@ -384,7 +383,7 @@ if (!$superAdmin) {
             <!-- Chip + Save -->
             <div class="flex items-center justify-between flex-wrap gap-2">
                 <div>
-                    <label class="text-xs text-gray-500 mb-1.5 block">CHIP FÃSICO</label>
+                    <label class="text-xs text-gray-500 mb-1.5 block">CHIP FÍSICO</label>
                     <?php if ($filled && !$superAdmin): ?>
                     <span class="chip-btn <?= $chip === '1' ? 'active-sim' : ($chip === '0' ? 'active-nao' : 'active-dun') ?>">
                         <?= chipLabel($chip) ?>
@@ -392,7 +391,7 @@ if (!$superAdmin) {
                     <?php else: ?>
                     <div class="flex gap-1.5" id="card-chip-<?= $l['id'] ?>">
                         <button class="chip-btn <?= $chip === '1' ? 'active-sim' : 'idle' ?>" onclick="setChipCard(<?= $l['id'] ?>,1,this)" data-val="1">Sim</button>
-                        <button class="chip-btn <?= $chip === '0' ? 'active-nao' : 'idle' ?>" onclick="setChipCard(<?= $l['id'] ?>,0,this)" data-val="0">NÃ£o</button>
+                        <button class="chip-btn <?= $chip === '0' ? 'active-nao' : 'idle' ?>" onclick="setChipCard(<?= $l['id'] ?>,0,this)" data-val="0">Não</button>
                         <button class="chip-btn <?= $chip === null ? 'active-dun' : 'idle' ?>" onclick="setChipCard(<?= $l['id'] ?>,null,this)" data-val="">?</button>
                     </div>
                     <?php endif; ?>
@@ -423,7 +422,6 @@ if (!$superAdmin) {
      style="min-width:200px;transition:opacity .3s"></div>
 
 <script>
-// Chip selection state per row
 const chipState = {};
 
 function setChip(id, val, btn) {
@@ -465,7 +463,7 @@ async function salvarCard(id) {
 }
 
 async function salvar(id, setor, chip, type) {
-    if (!setor) { toast('Informe o Setor ou UsuÃ¡rio', 'err'); return; }
+    if (!setor) { toast('Informe o Setor ou Usuário', 'err'); return; }
 
     const btn = document.getElementById((type==='row'?'btn-':'card-btn-') + id);
     if (btn) { btn.disabled = true; btn.textContent = 'Salvando...'; }
@@ -486,7 +484,7 @@ async function salvar(id, setor, chip, type) {
             if (btn) { btn.disabled = false; btn.textContent = 'Salvar'; }
         }
     } catch(e) {
-        toast('Erro de conexÃ£o', 'err');
+        toast('Erro de conexão', 'err');
         if (btn) { btn.disabled = false; btn.textContent = 'Salvar'; }
     }
 }
@@ -494,9 +492,8 @@ async function salvar(id, setor, chip, type) {
 const isSuperAdmin = <?= $superAdmin ? 'true' : 'false' ?>;
 
 function lockRow(id, setor, chip) {
-    if (isSuperAdmin) return; // superadmin always editable
+    if (isSuperAdmin) return;
 
-    // Table row
     const tr = document.getElementById('tr-' + id);
     if (tr) {
         const inp = document.getElementById('setor-' + id);
@@ -508,13 +505,10 @@ function lockRow(id, setor, chip) {
         tr.dataset.filled = '1';
     }
 
-    // Card
     const card = document.getElementById('card-' + id);
     if (card) {
         const cinp = document.getElementById('card-setor-' + id);
         if (cinp) cinp.disabled = true;
-        const chipLabel = chip === 1 ? 'Sim' : chip === 0 ? 'NÃ£o' : '?';
-        const chipCls   = chip === 1 ? 'active-sim' : chip === 0 ? 'active-nao' : 'active-dun';
         document.getElementById('card-status-' + id).innerHTML =
             '<span class="text-green-400"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg></span>';
         card.dataset.filled = '1';
@@ -522,9 +516,6 @@ function lockRow(id, setor, chip) {
 }
 
 function updateStats() {
-    const all    = document.querySelectorAll('[data-id]');
-    const filled = [...all].filter(el => el.dataset.filled === '1');
-    // Count unique IDs
     const allIds    = new Set([...document.querySelectorAll('[data-id]')].map(e=>e.dataset.id));
     const filledIds = new Set([...document.querySelectorAll('[data-filled="1"]')].map(e=>e.dataset.id));
 
@@ -548,7 +539,6 @@ function filtrar(q) {
 
     let visiveis = 0;
 
-    // Table rows
     document.querySelectorAll('#tbody-linhas tr[data-search]').forEach(tr => {
         const s = tr.dataset.search || '';
         const ok = !raw || s.includes(raw) || (digit && s.includes(digit));
@@ -556,7 +546,6 @@ function filtrar(q) {
         if (ok) visiveis++;
     });
 
-    // Mobile cards
     document.querySelectorAll('#cards-container > div[data-search]').forEach(card => {
         const s = card.dataset.search || '';
         const ok = !raw || s.includes(raw) || (digit && s.includes(digit));
@@ -589,4 +578,3 @@ function toast(msg, type) {
 </script>
 </body>
 </html>
-
