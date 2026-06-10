@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 /**
- * INSTALADOR – Chips e Linha
- * Acesse uma única vez para criar o banco, tabelas e importar dados.
- * APAGUE ou RENOMEIE este arquivo após a instalação.
+ * INSTALADOR â€“ Gestor de Linhas
+ * Acesse uma Ãºnica vez para criar o banco, tabelas e importar dados.
+ * APAGUE ou RENOMEIE este arquivo apÃ³s a instalaÃ§Ã£o.
  */
 
 require_once dirname(__DIR__) . '/config.php';
@@ -21,12 +21,12 @@ if ($step === 'install') {
             [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
         );
 
-        $log[] = "✓ Conectado ao MySQL";
+        $log[] = "âœ“ Conectado ao MySQL";
 
         // Create DB
         $pdo->exec("CREATE DATABASE IF NOT EXISTS `" . DB_NAME . "` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
         $pdo->exec("USE `" . DB_NAME . "`");
-        $log[] = "✓ Banco de dados '" . DB_NAME . "' criado/verificado";
+        $log[] = "âœ“ Banco de dados '" . DB_NAME . "' criado/verificado";
 
         // Tables
         $pdo->exec("CREATE TABLE IF NOT EXISTS filiais (
@@ -34,7 +34,7 @@ if ($step === 'install') {
             nome       VARCHAR(100) NOT NULL UNIQUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=InnoDB");
-        $log[] = "✓ Tabela 'filiais' criada";
+        $log[] = "âœ“ Tabela 'filiais' criada";
 
         $pdo->exec("CREATE TABLE IF NOT EXISTS users (
             id         INT PRIMARY KEY AUTO_INCREMENT,
@@ -47,7 +47,7 @@ if ($step === 'install') {
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (filial_id) REFERENCES filiais(id) ON DELETE SET NULL
         ) ENGINE=InnoDB");
-        $log[] = "✓ Tabela 'users' criada";
+        $log[] = "âœ“ Tabela 'users' criada";
 
         $pdo->exec("CREATE TABLE IF NOT EXISTS linhas (
             id               INT PRIMARY KEY AUTO_INCREMENT,
@@ -62,7 +62,7 @@ if ($step === 'install') {
             FOREIGN KEY (filial_id) REFERENCES filiais(id),
             FOREIGN KEY (identificado_por) REFERENCES users(id) ON DELETE SET NULL
         ) ENGINE=InnoDB");
-        $log[] = "✓ Tabela 'linhas' criada";
+        $log[] = "âœ“ Tabela 'linhas' criada";
 
         // Additional integration columns (future use)
         // ALTER TABLE linhas ADD COLUMN patrimonio_id INT NULL;
@@ -77,12 +77,12 @@ if ($step === 'install') {
         }
         $rows = $pdo->query("SELECT id, nome FROM filiais")->fetchAll(PDO::FETCH_ASSOC);
         foreach ($rows as $r) $filialMap[$r['nome']] = $r['id'];
-        $log[] = "✓ Filiais inseridas: " . implode(', ', $filialNomes);
+        $log[] = "âœ“ Filiais inseridas: " . implode(', ', $filialNomes);
 
         // Import CSV
         $csvPath = dirname(__DIR__) . '/GRUPO TRANSCLEBER.csv';
         if (!file_exists($csvPath)) {
-            $log[] = "⚠ Arquivo CSV não encontrado em: $csvPath – dados não importados";
+            $log[] = "âš  Arquivo CSV nÃ£o encontrado em: $csvPath â€“ dados nÃ£o importados";
         } else {
             $content = file_get_contents($csvPath);
             // Detect and fix encoding
@@ -106,7 +106,7 @@ if ($step === 'install') {
                 $stmtL->execute([$telefone, $parametro, $filialMap[$filialNm]]);
                 $imported++;
             }
-            $log[] = "✓ Linhas importadas: $imported (ignoradas/duplicadas: $skipped)";
+            $log[] = "âœ“ Linhas importadas: $imported (ignoradas/duplicadas: $skipped)";
         }
 
         // Create superadmin
@@ -118,7 +118,7 @@ if ($step === 'install') {
             password_hash($adminPwd, PASSWORD_DEFAULT),
             'superadmin'
         ]);
-        $log[] = "✓ SuperAdmin '" . SUPERADMIN_USER . "' criado (senha: <strong>$adminPwd</strong>)";
+        $log[] = "âœ“ SuperAdmin '" . SUPERADMIN_USER . "' criado (senha: <strong>$adminPwd</strong>)";
 
         // Create gestores with default password
         $gestorPwd = 'gestor@123';
@@ -126,12 +126,12 @@ if ($step === 'install') {
         foreach ($filialMap as $nome => $fid) {
             $uname = 'gestor.' . strtolower(str_replace('_', '', $nome));
             $stmtG->execute([$uname, 'Gestor ' . $nome, password_hash($gestorPwd, PASSWORD_DEFAULT), $fid]);
-            $log[] = "✓ Gestor criado: <strong>$uname</strong> (senha: $gestorPwd) → Filial: $nome";
+            $log[] = "âœ“ Gestor criado: <strong>$uname</strong> (senha: $gestorPwd) â†’ Filial: $nome";
         }
 
         $success = true;
-        $log[] = "<br><strong style='color:#4ade80'>✓ Instalação concluída com sucesso!</strong>";
-        $log[] = "<span style='color:#fbbf24'>⚠ IMPORTANTE: Apague ou renomeie este arquivo (setup/install.php) após a instalação.</span>";
+        $log[] = "<br><strong style='color:#4ade80'>âœ“ InstalaÃ§Ã£o concluÃ­da com sucesso!</strong>";
+        $log[] = "<span style='color:#fbbf24'>âš  IMPORTANTE: Apague ou renomeie este arquivo (setup/install.php) apÃ³s a instalaÃ§Ã£o.</span>";
 
     } catch (PDOException $e) {
         $error = 'Erro: ' . $e->getMessage();
@@ -143,7 +143,7 @@ if ($step === 'install') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instalação – Chips e Linha</title>
+    <title>InstalaÃ§Ã£o â€“ Gestor de Linhas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background:#02081a; color:#fff; font-family:'Segoe UI',system-ui,sans-serif; }
@@ -161,8 +161,8 @@ if ($step === 'install') {
                 <text x="22" y="22" text-anchor="middle" fill="#fff" font-size="13" font-weight="800" font-family="Arial">JB</text>
             </svg>
             <div>
-                <h1 class="text-xl font-bold">Chips e Linha</h1>
-                <p class="text-sm text-gray-500">Instalação do sistema</p>
+                <h1 class="text-xl font-bold">Gestor de Linhas</h1>
+                <p class="text-sm text-gray-500">InstalaÃ§Ã£o do sistema</p>
             </div>
         </div>
 
@@ -174,15 +174,15 @@ if ($step === 'install') {
 
         <?php if (!$step || $error): ?>
         <div class="mb-5 p-4 rounded-lg" style="background:#0f2038;border:1px solid #1e3a6e">
-            <h2 class="font-semibold text-blue-300 mb-2">O que será feito:</h2>
+            <h2 class="font-semibold text-blue-300 mb-2">O que serÃ¡ feito:</h2>
             <ul class="text-sm text-gray-300 space-y-1 list-disc list-inside">
                 <li>Criar banco de dados <strong><?= DB_NAME ?></strong></li>
                 <li>Criar tabelas: filiais, users, linhas</li>
                 <li>Importar dados do arquivo <code>GRUPO TRANSCLEBER.csv</code></li>
-                <li>Criar usuário superadmin: <strong><?= SUPERADMIN_USER ?></strong></li>
-                <li>Criar usuários gestores para cada filial</li>
+                <li>Criar usuÃ¡rio superadmin: <strong><?= SUPERADMIN_USER ?></strong></li>
+                <li>Criar usuÃ¡rios gestores para cada filial</li>
             </ul>
-            <p class="text-xs text-yellow-500 mt-3">⚠ Execute apenas uma vez. Apague este arquivo após instalar.</p>
+            <p class="text-xs text-yellow-500 mt-3">âš  Execute apenas uma vez. Apague este arquivo apÃ³s instalar.</p>
         </div>
         <form method="post">
             <input type="hidden" name="step" value="install">
@@ -195,9 +195,10 @@ if ($step === 'install') {
             <?php endforeach; ?>
         </div>
         <?php if ($success): ?>
-        <a href="../index.php" class="btn block text-center">Ir para o Login →</a>
+        <a href="../index.php" class="btn block text-center">Ir para o Login â†’</a>
         <?php endif; ?>
         <?php endif; ?>
     </div>
 </body>
 </html>
+

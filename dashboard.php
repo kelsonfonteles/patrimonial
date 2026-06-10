@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/auth.php';
@@ -62,7 +62,7 @@ if (!$superAdmin) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chips e Linha</title>
+    <title>Gestor de Linhas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>tailwind.config={theme:{extend:{colors:{jb:{950:'#02081a',900:'#050f1e',800:'#091627',700:'#0f2038'}}}}}</script>
     <style>
@@ -124,12 +124,12 @@ if (!$superAdmin) {
                 <ellipse cx="24" cy="17" rx="17" ry="10" fill="none" stroke="#c8a026" stroke-width="1" opacity=".4"/>
                 <text x="24" y="23" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" font-family="Arial,sans-serif">JB</text>
             </svg>
-            <span class="text-white font-semibold hidden sm:block">Chips e Linha</span>
+            <span class="text-white font-semibold hidden sm:block">Gestor de Linhas</span>
         </div>
         <div class="flex items-center gap-3">
             <?php if ($superAdmin): ?>
             <a href="<?= APP_URL ?>/admin.php" class="text-xs text-purple-400 hover:text-purple-300 hidden sm:block border border-purple-800 px-3 py-1.5 rounded-lg">
-                Gestão de Usuários
+                GestÃ£o de UsuÃ¡rios
             </a>
             <?php endif; ?>
             <div class="flex items-center gap-2">
@@ -155,7 +155,7 @@ if (!$superAdmin) {
 
     <!-- Page title -->
     <div class="mb-5">
-        <h1 class="text-xl font-bold text-white">Identificação de Linhas</h1>
+        <h1 class="text-xl font-bold text-white">IdentificaÃ§Ã£o de Linhas</h1>
         <p class="text-sm text-gray-500 mt-0.5">
             Filial: <span class="text-blue-400 font-medium"><?= htmlspecialchars($filialLabel) ?></span>
         </p>
@@ -176,7 +176,7 @@ if (!$superAdmin) {
             <p class="text-2xl font-bold text-orange-400" id="cnt-pend"><?= $pendentes ?></p>
         </div>
         <div class="stat-card">
-            <p class="text-xs text-gray-500 mb-1">Com Chip Físico</p>
+            <p class="text-xs text-gray-500 mb-1">Com Chip FÃ­sico</p>
             <p class="text-2xl font-bold text-purple-400" id="cnt-chip"><?= $comChip ?></p>
         </div>
     </div>
@@ -184,7 +184,7 @@ if (!$superAdmin) {
     <!-- Progress -->
     <div class="mb-5">
         <div class="flex justify-between text-xs text-gray-500 mb-1.5">
-            <span>Progresso de identificação</span>
+            <span>Progresso de identificaÃ§Ã£o</span>
             <span id="prog-txt"><?= $identificados ?> / <?= $total ?> (<?= $progPct ?>%)</span>
         </div>
         <div class="progress-bar">
@@ -203,9 +203,9 @@ if (!$superAdmin) {
                 </svg>
             </span>
             <input type="text" id="busca" class="search-inp"
-                   placeholder="Pesquisar por número, setor ou plano..."
+                   placeholder="Pesquisar por nÃºmero, setor ou plano..."
                    oninput="filtrar(this.value)">
-            <button class="search-clear" id="busca-clear" style="display:none" onclick="limparBusca()">✕</button>
+            <button class="search-clear" id="busca-clear" style="display:none" onclick="limparBusca()">âœ•</button>
             </div>
             <a href="<?= APP_URL ?>/api/export_excel.php<?= $filialFilter ? '?filial=' . $filialFilter : '' ?>"
                class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold whitespace-nowrap"
@@ -241,7 +241,7 @@ if (!$superAdmin) {
     <div class="card p-10 text-center text-gray-500">
         <p class="text-lg">Nenhuma linha encontrada.</p>
         <?php if (!$superAdmin && !$user['filial_id']): ?>
-        <p class="text-sm mt-2">Seu usuário não está associado a nenhuma filial. Contate o administrador.</p>
+        <p class="text-sm mt-2">Seu usuÃ¡rio nÃ£o estÃ¡ associado a nenhuma filial. Contate o administrador.</p>
         <?php endif; ?>
     </div>
     <?php else: ?>
@@ -255,12 +255,12 @@ if (!$superAdmin) {
                     <?php if ($superAdmin && !$filialFilter): ?>
                     <th class="text-left">Filial</th>
                     <?php endif; ?>
-                    <th class="text-left">Número</th>
+                    <th class="text-left">NÃºmero</th>
                     <th class="text-left">Plano</th>
-                    <th class="text-left" style="min-width:200px">Setor / Usuário</th>
-                    <th class="text-center">Chip Físico</th>
+                    <th class="text-left" style="min-width:200px">Setor / UsuÃ¡rio</th>
+                    <th class="text-center">Chip FÃ­sico</th>
                     <th class="text-center">Status</th>
-                    <th class="text-center">Ação</th>
+                    <th class="text-center">AÃ§Ã£o</th>
                 </tr>
             </thead>
             <tbody id="tbody-linhas">
@@ -283,7 +283,7 @@ if (!$superAdmin) {
                         <?php else: ?>
                         <input type="text" id="setor-<?= $l['id'] ?>"
                                class="inp-setor"
-                               placeholder="Digite o setor ou usuário..."
+                               placeholder="Digite o setor ou usuÃ¡rio..."
                                value="<?= htmlspecialchars($l['setor_usuario'] ?? '') ?>"
                                <?= ($locked) ? 'disabled' : '' ?>
                                onkeyup="this.value=this.value.toUpperCase()">
@@ -297,7 +297,7 @@ if (!$superAdmin) {
                         <?php else: ?>
                         <div class="flex justify-center gap-1">
                             <button class="chip-btn <?= $chip === '1' ? 'active-sim' : 'idle' ?>" onclick="setChip(<?= $l['id'] ?>,1,this)" data-val="1">Sim</button>
-                            <button class="chip-btn <?= $chip === '0' ? 'active-nao' : 'idle' ?>" onclick="setChip(<?= $l['id'] ?>,0,this)" data-val="0">Não</button>
+                            <button class="chip-btn <?= $chip === '0' ? 'active-nao' : 'idle' ?>" onclick="setChip(<?= $l['id'] ?>,0,this)" data-val="0">NÃ£o</button>
                             <button class="chip-btn <?= $chip === null ? 'active-dun' : 'idle' ?>" onclick="setChip(<?= $l['id'] ?>,null,this)" data-val="">?</button>
                         </div>
                         <?php endif; ?>
@@ -368,13 +368,13 @@ if (!$superAdmin) {
 
             <!-- Setor -->
             <div class="mb-3">
-                <label class="text-xs text-gray-500 mb-1 block">SETOR / USUÁRIO</label>
+                <label class="text-xs text-gray-500 mb-1 block">SETOR / USUÃRIO</label>
                 <?php if ($filled && !$superAdmin): ?>
                 <p class="text-white font-semibold uppercase text-sm" id="card-setor-txt-<?= $l['id'] ?>"><?= htmlspecialchars($l['setor_usuario']) ?></p>
                 <?php else: ?>
                 <input type="text" id="card-setor-<?= $l['id'] ?>"
                        class="inp-setor"
-                       placeholder="Digite o setor ou usuário..."
+                       placeholder="Digite o setor ou usuÃ¡rio..."
                        value="<?= htmlspecialchars($l['setor_usuario'] ?? '') ?>"
                        <?= ($locked) ? 'disabled' : '' ?>
                        onkeyup="this.value=this.value.toUpperCase()">
@@ -384,7 +384,7 @@ if (!$superAdmin) {
             <!-- Chip + Save -->
             <div class="flex items-center justify-between flex-wrap gap-2">
                 <div>
-                    <label class="text-xs text-gray-500 mb-1.5 block">CHIP FÍSICO</label>
+                    <label class="text-xs text-gray-500 mb-1.5 block">CHIP FÃSICO</label>
                     <?php if ($filled && !$superAdmin): ?>
                     <span class="chip-btn <?= $chip === '1' ? 'active-sim' : ($chip === '0' ? 'active-nao' : 'active-dun') ?>">
                         <?= chipLabel($chip) ?>
@@ -392,7 +392,7 @@ if (!$superAdmin) {
                     <?php else: ?>
                     <div class="flex gap-1.5" id="card-chip-<?= $l['id'] ?>">
                         <button class="chip-btn <?= $chip === '1' ? 'active-sim' : 'idle' ?>" onclick="setChipCard(<?= $l['id'] ?>,1,this)" data-val="1">Sim</button>
-                        <button class="chip-btn <?= $chip === '0' ? 'active-nao' : 'idle' ?>" onclick="setChipCard(<?= $l['id'] ?>,0,this)" data-val="0">Não</button>
+                        <button class="chip-btn <?= $chip === '0' ? 'active-nao' : 'idle' ?>" onclick="setChipCard(<?= $l['id'] ?>,0,this)" data-val="0">NÃ£o</button>
                         <button class="chip-btn <?= $chip === null ? 'active-dun' : 'idle' ?>" onclick="setChipCard(<?= $l['id'] ?>,null,this)" data-val="">?</button>
                     </div>
                     <?php endif; ?>
@@ -465,7 +465,7 @@ async function salvarCard(id) {
 }
 
 async function salvar(id, setor, chip, type) {
-    if (!setor) { toast('Informe o Setor ou Usuário', 'err'); return; }
+    if (!setor) { toast('Informe o Setor ou UsuÃ¡rio', 'err'); return; }
 
     const btn = document.getElementById((type==='row'?'btn-':'card-btn-') + id);
     if (btn) { btn.disabled = true; btn.textContent = 'Salvando...'; }
@@ -486,7 +486,7 @@ async function salvar(id, setor, chip, type) {
             if (btn) { btn.disabled = false; btn.textContent = 'Salvar'; }
         }
     } catch(e) {
-        toast('Erro de conexão', 'err');
+        toast('Erro de conexÃ£o', 'err');
         if (btn) { btn.disabled = false; btn.textContent = 'Salvar'; }
     }
 }
@@ -513,7 +513,7 @@ function lockRow(id, setor, chip) {
     if (card) {
         const cinp = document.getElementById('card-setor-' + id);
         if (cinp) cinp.disabled = true;
-        const chipLabel = chip === 1 ? 'Sim' : chip === 0 ? 'Não' : '?';
+        const chipLabel = chip === 1 ? 'Sim' : chip === 0 ? 'NÃ£o' : '?';
         const chipCls   = chip === 1 ? 'active-sim' : chip === 0 ? 'active-nao' : 'active-dun';
         document.getElementById('card-status-' + id).innerHTML =
             '<span class="text-green-400"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg></span>';
@@ -589,3 +589,4 @@ function toast(msg, type) {
 </script>
 </body>
 </html>
+

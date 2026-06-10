@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/auth.php';
 startSession();
@@ -12,7 +12,7 @@ if (!empty($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chips e Linha – Login</title>
+    <title>Gestor de Linhas â€“ Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
     tailwind.config = {
@@ -58,7 +58,7 @@ if (!empty($_SESSION['user_id'])) {
     <main class="flex-1 flex items-center justify-center px-4 py-10">
         <div class="card rounded-2xl p-8 w-full max-w-sm shadow-2xl">
             <div class="text-center mb-7">
-                <h1 class="text-2xl font-bold text-white">Chips e Linha</h1>
+                <h1 class="text-2xl font-bold text-white">Gestor de Linhas</h1>
                 <p class="text-gray-400 text-sm mt-1">Bem-vindo!</p>
             </div>
 
@@ -66,7 +66,7 @@ if (!empty($_SESSION['user_id'])) {
                  style="background:#2d0f0f;border:1px solid #7f1d1d;color:#fca5a5"></div>
 
             <div class="space-y-4">
-                <input type="text"  id="u" placeholder="Usuário" class="inp" autocomplete="username">
+                <input type="text"  id="u" placeholder="UsuÃ¡rio" class="inp" autocomplete="username">
                 <input type="password" id="p" placeholder="Senha" class="inp" autocomplete="current-password">
                 <div>
                     <a href="#" class="text-blue-400 text-sm hover:text-blue-300">Esqueceu sua senha?</a>
@@ -85,8 +85,8 @@ if (!empty($_SESSION['user_id'])) {
 
     <!-- footer -->
     <footer class="py-4 text-center" style="color:#2a3f55;font-size:.75rem">
-        <p>© Grupo JB, Transporte e Logística</p>
-        <p>© 2026 – Todos os direitos reservados</p>
+        <p>Â© Grupo JB, Transporte e LogÃ­stica</p>
+        <p>Â© 2026 â€“ Todos os direitos reservados</p>
     </footer>
 
     <script>
@@ -105,7 +105,7 @@ if (!empty($_SESSION['user_id'])) {
         const p   = document.getElementById('p').value;
 
         err.classList.add('hidden');
-        if (!u || !p) { showErr('Informe usuário e senha'); return; }
+        if (!u || !p) { showErr('Informe usuÃ¡rio e senha'); return; }
 
         btn.disabled    = true;
         btn.textContent = 'Entrando...';
@@ -124,7 +124,7 @@ if (!empty($_SESSION['user_id'])) {
                 btn.disabled = false; btn.textContent = 'Entrar';
             }
         } catch(e) {
-            showErr('Erro de conexão. Tente novamente.');
+            showErr('Erro de conexÃ£o. Tente novamente.');
             btn.disabled = false; btn.textContent = 'Entrar';
         }
     }
@@ -137,3 +137,4 @@ if (!empty($_SESSION['user_id'])) {
     </script>
 </body>
 </html>
+

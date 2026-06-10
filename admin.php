@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/auth.php';
@@ -18,7 +18,7 @@ $ativos  = count(array_filter($users, fn($u) => $u['ativo'] == 1));
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão de Usuários – Chips e Linha</title>
+    <title>GestÃ£o de UsuÃ¡rios â€“ Gestor de Linhas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>tailwind.config={theme:{extend:{colors:{jb:{950:'#02081a',900:'#050f1e',800:'#091627',700:'#0f2038'}}}}}</script>
     <style>
@@ -64,13 +64,13 @@ $ativos  = count(array_filter($users, fn($u) => $u['ativo'] == 1));
                 <ellipse cx="24" cy="17" rx="17" ry="10" fill="none" stroke="#c8a026" stroke-width="1" opacity=".4"/>
                 <text x="24" y="23" text-anchor="middle" fill="#fff" font-size="14" font-weight="800" font-family="Arial,sans-serif">JB</text>
             </svg>
-            <span class="text-white font-semibold">Chips e Linha</span>
+            <span class="text-white font-semibold">Gestor de Linhas</span>
             <span class="text-gray-600">/</span>
-            <span class="text-purple-400 text-sm">Gestão de Usuários</span>
+            <span class="text-purple-400 text-sm">GestÃ£o de UsuÃ¡rios</span>
         </div>
         <div class="flex items-center gap-3">
             <a href="<?= APP_URL ?>/dashboard.php" class="text-xs text-blue-400 hover:text-blue-300 border border-blue-800 px-3 py-1.5 rounded-lg">
-                ← Dashboard
+                â† Dashboard
             </a>
             <a href="<?= APP_URL ?>/api/logout.php" class="text-gray-400 hover:text-red-400" title="Sair">
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -84,10 +84,10 @@ $ativos  = count(array_filter($users, fn($u) => $u['ativo'] == 1));
 <main class="max-w-7xl mx-auto px-4 py-6">
     <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
         <div>
-            <h1 class="text-xl font-bold text-white">Usuários do Sistema</h1>
-            <p class="text-sm text-gray-500 mt-0.5"><?= $total ?> usuários · <?= $ativos ?> ativos</p>
+            <h1 class="text-xl font-bold text-white">UsuÃ¡rios do Sistema</h1>
+            <p class="text-sm text-gray-500 mt-0.5"><?= $total ?> usuÃ¡rios Â· <?= $ativos ?> ativos</p>
         </div>
-        <button class="btn-p" onclick="openModal()">+ Novo Usuário</button>
+        <button class="btn-p" onclick="openModal()">+ Novo UsuÃ¡rio</button>
     </div>
 
     <!-- Table -->
@@ -95,27 +95,27 @@ $ativos  = count(array_filter($users, fn($u) => $u['ativo'] == 1));
         <table class="tbl w-full">
             <thead>
                 <tr>
-                    <th class="text-left">Usuário</th>
+                    <th class="text-left">UsuÃ¡rio</th>
                     <th class="text-left">Nome</th>
                     <th class="text-left">Filial</th>
                     <th class="text-left">Perfil</th>
                     <th class="text-left">Status</th>
                     <th class="text-left">Desde</th>
-                    <th class="text-center">Ações</th>
+                    <th class="text-center">AÃ§Ãµes</th>
                 </tr>
             </thead>
             <tbody>
             <?php foreach ($users as $u): ?>
                 <tr>
                     <td class="font-mono text-blue-300"><?= htmlspecialchars($u['username']) ?></td>
-                    <td><?= htmlspecialchars($u['nome'] ?: '—') ?></td>
+                    <td><?= htmlspecialchars($u['nome'] ?: 'â€”') ?></td>
                     <td>
                         <?php if ($u['filial_nome']): ?>
                         <span style="background:#0f2038;border:1px solid #1e3a6e;color:#60a5fa;padding:.15rem .5rem;border-radius:.3rem;font-size:.7rem">
                             <?= htmlspecialchars($u['filial_nome']) ?>
                         </span>
                         <?php else: ?>
-                        <span class="text-gray-600 text-xs">—</span>
+                        <span class="text-gray-600 text-xs">â€”</span>
                         <?php endif; ?>
                     </td>
                     <td>
@@ -149,7 +149,7 @@ $ativos  = count(array_filter($users, fn($u) => $u['ativo'] == 1));
 
 <!-- MODAL -->
 <div class="modal" id="modal">
-    <h2 class="text-lg font-bold text-white mb-5" id="modal-title">Novo Usuário</h2>
+    <h2 class="text-lg font-bold text-white mb-5" id="modal-title">Novo UsuÃ¡rio</h2>
     <div id="modal-err" class="hidden mb-4 p-3 rounded-lg text-sm" style="background:#2d0f0f;border:1px solid #7f1d1d;color:#fca5a5"></div>
     <input type="hidden" id="edit-id">
     <div class="space-y-3">
@@ -162,13 +162,13 @@ $ativos  = count(array_filter($users, fn($u) => $u['ativo'] == 1));
             <input type="text" id="m-nome" class="inp" placeholder="Nome do gestor">
         </div>
         <div>
-            <label class="text-xs text-gray-400 mb-1 block">SENHA <span id="pwd-label" class="text-gray-600">(obrigatória)</span></label>
+            <label class="text-xs text-gray-400 mb-1 block">SENHA <span id="pwd-label" class="text-gray-600">(obrigatÃ³ria)</span></label>
             <input type="password" id="m-pwd" class="inp" placeholder="Senha de acesso">
         </div>
         <div>
             <label class="text-xs text-gray-400 mb-1 block">FILIAL</label>
             <select id="m-filial" class="sel">
-                <option value="">— Sem filial (superadmin) —</option>
+                <option value="">â€” Sem filial (superadmin) â€”</option>
                 <?php foreach ($filiais as $f): ?>
                 <option value="<?= $f['id'] ?>"><?= htmlspecialchars($f['nome']) ?></option>
                 <?php endforeach; ?>
@@ -184,7 +184,7 @@ $ativos  = count(array_filter($users, fn($u) => $u['ativo'] == 1));
         <div id="ativo-row" class="hidden">
             <label class="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" id="m-ativo" class="accent-green-500 w-4 h-4" checked>
-                <span class="text-sm text-gray-300">Usuário ativo</span>
+                <span class="text-sm text-gray-300">UsuÃ¡rio ativo</span>
             </label>
         </div>
     </div>
@@ -201,7 +201,7 @@ let editingId = null;
 
 function openModal() {
     editingId = null;
-    document.getElementById('modal-title').textContent = 'Novo Usuário';
+    document.getElementById('modal-title').textContent = 'Novo UsuÃ¡rio';
     document.getElementById('edit-id').value  = '';
     document.getElementById('m-user').value   = '';
     document.getElementById('m-nome').value   = '';
@@ -209,7 +209,7 @@ function openModal() {
     document.getElementById('m-filial').value = '';
     document.getElementById('m-role').value   = 'gestor';
     document.getElementById('m-user').disabled = false;
-    document.getElementById('pwd-label').textContent = '(obrigatória)';
+    document.getElementById('pwd-label').textContent = '(obrigatÃ³ria)';
     document.getElementById('ativo-row').classList.add('hidden');
     document.getElementById('modal-err').classList.add('hidden');
     document.getElementById('overlay').style.display = 'block';
@@ -218,7 +218,7 @@ function openModal() {
 
 function editUser(u) {
     editingId = u.id;
-    document.getElementById('modal-title').textContent = 'Editar Usuário';
+    document.getElementById('modal-title').textContent = 'Editar UsuÃ¡rio';
     document.getElementById('edit-id').value  = u.id;
     document.getElementById('m-user').value   = u.username;
     document.getElementById('m-nome').value   = u.nome || '';
@@ -258,7 +258,7 @@ async function saveUser() {
         method = 'PUT'; body.id = parseInt(id); body.ativo = ativo;
         if (pwd) body.password = pwd;
     } else {
-        if (!user || !pwd) { showModalErr('Username e senha são obrigatórios'); return; }
+        if (!user || !pwd) { showModalErr('Username e senha sÃ£o obrigatÃ³rios'); return; }
         method = 'POST'; body.username = user; body.password = pwd;
     }
 
@@ -271,16 +271,16 @@ async function saveUser() {
         } else {
             showModalErr(d.error || 'Erro ao salvar');
         }
-    } catch(e) { showModalErr('Erro de conexão'); }
+    } catch(e) { showModalErr('Erro de conexÃ£o'); }
 }
 
 async function desativar(id, uname) {
-    if (!confirm(`Desativar usuário "${uname}"?`)) return;
+    if (!confirm(`Desativar usuÃ¡rio "${uname}"?`)) return;
     const r = await fetch('<?= APP_URL ?>/api/users.php', {
         method:'DELETE', headers:{'Content-Type':'application/json'}, body: JSON.stringify({id})
     });
     const d = await r.json();
-    if (d.success) { toast('Usuário desativado', 'ok'); setTimeout(() => location.reload(), 800); }
+    if (d.success) { toast('UsuÃ¡rio desativado', 'ok'); setTimeout(() => location.reload(), 800); }
     else toast(d.error || 'Erro', 'err');
 }
 
@@ -302,3 +302,4 @@ function toast(msg, type) {
 </script>
 </body>
 </html>
+
