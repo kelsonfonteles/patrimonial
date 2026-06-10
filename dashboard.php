@@ -192,9 +192,11 @@ if (!$superAdmin) {
         </div>
     </div>
 
-    <!-- BUSCA -->
+    <!-- BUSCA + EXPORT -->
     <div class="mb-5">
-        <div class="search-wrap">
+        <div class="flex gap-2 mb-2">
+            <div class="search-wrap flex-1">
+
             <span class="search-icon">
                 <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -204,6 +206,18 @@ if (!$superAdmin) {
                    placeholder="Pesquisar por número, setor ou plano..."
                    oninput="filtrar(this.value)">
             <button class="search-clear" id="busca-clear" style="display:none" onclick="limparBusca()">✕</button>
+            </div>
+            <a href="<?= APP_URL ?>/api/export_excel.php<?= $filialFilter ? '?filial=' . $filialFilter : '' ?>"
+               class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold whitespace-nowrap"
+               style="background:#0f2038;border:1px solid #1e4620;color:#4ade80;"
+               onmouseover="this.style.background='#14532d'" onmouseout="this.style.background='#0f2038'">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Excel
+            </a>
         </div>
         <p class="search-count" id="busca-count"></p>
     </div>
