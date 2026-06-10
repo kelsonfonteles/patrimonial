@@ -2,7 +2,8 @@
 vendor/
 node_modules/
 
-# Config local (não versionar credenciais)
+# Config — não versionar credenciais
+config.php
 config.local.php
 
 # Uploads / dados
